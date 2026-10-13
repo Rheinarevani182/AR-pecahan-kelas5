@@ -25,12 +25,64 @@
   </header>
   <div class="scan-badge is-found" id="scanBadge" role="status"><span class="scan-dot"></span><span id="scanStatus">Mode preview · ketuk pizzanya!</span></div>
   <div class="scan-guide hidden" id="scanGuide"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="celebration" id="celebration" aria-hidden="true"></div>
-  <div class="game-panel">
-    <div class="panel-head"><div class="panel-brand"><span>✨ BELAJAR SAMBIL MAIN</span><h1 id="modeTitle">Bikin Pecahanmu!</h1></div><div class="fraction-card"><span>PECAHAN</span><b id="fractionText">0/4</b></div></div>
-    <div class="switch-mode"><button data-mode-select="explore" class="selected">🧩 Eksplorasi</button><button data-mode-select="challenge">🏆 Tantangan</button></div>
-    <div class="explore-section" id="exploreSection"><p class="short-help" id="explain">Pilih jumlah potongan, lalu ketuk pizza untuk mengambil bagiannya.</p><div class="cuts" role="group" aria-label="Jumlah potongan"><button data-cut="2">½ <small>Bagi 2</small></button><button data-cut="4" class="selected">¼ <small>Bagi 4</small></button><button data-cut="8">⅛ <small>Bagi 8</small></button></div><div class="action-row"><button id="minus" class="action-btn">− 1 bagian</button><button id="plus" class="action-btn action-main">+ 1 bagian</button><button id="spread" class="action-btn">↗ Pisahkan</button></div></div>
-    <div class="challenge-section hidden" id="challengeSection"><div class="challenge-top"><span class="challenge-icon">🎯</span><div><small>TANTANGAN</small><b id="challengePrompt">Ambil 1 dari 2 potongan!</b></div><span class="stars" id="starProgress">☆ ☆ ☆</span></div><p class="short-help">Ketuk potongan pizza yang kamu pilih, lalu periksa jawabanmu.</p><div class="action-row"><button id="clearSelection" class="action-btn">↺ Reset</button><button id="addChallenge" class="action-btn">+ 1 pilih</button><button id="checkAnswer" class="action-btn action-main">Cek ✓</button><button id="nextChallenge" class="action-btn hidden">Lanjut →</button></div></div>
-    <div class="panel-footer"><span>👆 Sentuh potongan pizza untuk memilih</span><button id="resetAll">Reset</button></div>
+  <div class="teacher-bubble" id="teacherBubble" role="status" aria-live="polite">
+    <div class="teacher-avatar" aria-hidden="true">👩‍🏫</div>
+    <div class="teacher-copy"><strong id="teacherTitle">Halo, penjelajah pecahan!</strong><p id="teacherMessage">Yuk belajar pecahan pakai pizza 3D!</p></div>
+    <button class="bubble-audio" id="speakButton" title="Bacakan penjelasan" aria-label="Bacakan penjelasan">🔊</button>
+  </div>
+
+  <div class="game-panel" id="gamePanel">
+    <div class="panel-head">
+      <div class="panel-brand"><span>📚 LABORATORIUM PECAHAN</span><h1 id="modeTitle">Belajar Pecahan Yuk!</h1></div>
+      <div class="fraction-card"><span>PIZZA DIPILIH</span><b id="fractionText">1/4</b></div>
+    </div>
+    <div class="switch-mode" aria-label="Mode belajar">
+      <button type="button" data-mode-select="learn" class="selected">📖 Belajar</button>
+      <button type="button" data-mode-select="explore">🍕 Coba Sendiri</button>
+      <button type="button" data-mode-select="challenge">🏆 Misi Cerita</button>
+    </div>
+
+    <section class="lesson-section" id="lessonSection">
+      <div class="lesson-meta"><span id="lessonCounter">Pelajaran 1 dari 5</span><span class="lesson-pill">Kelas 5 SD</span></div>
+      <h2 id="lessonTitle">Apa itu pecahan?</h2>
+      <p class="lesson-body" id="lessonBody">Pecahan menunjukkan sebagian dari suatu benda utuh.</p>
+      <div class="math-strip" id="lessonMath">1 dari 4 = 1/4</div>
+      <div class="lesson-actions">
+        <button type="button" id="prevLesson">← Sebelumnya</button>
+        <button type="button" id="nextLesson" class="primary">Lanjut materi →</button>
+      </div>
+    </section>
+
+    <section class="explore-section hidden" id="exploreSection">
+      <p class="short-help" id="explain">Pilih jumlah potongan lalu sentuh pizzanya.</p>
+      <div class="cuts" role="group" aria-label="Jumlah potongan">
+        <button type="button" data-cut="2">½ <small>Bagi 2</small></button>
+        <button type="button" data-cut="4" class="selected">¼ <small>Bagi 4</small></button>
+        <button type="button" data-cut="8">⅛ <small>Bagi 8</small></button>
+      </div>
+      <div class="action-row">
+        <button type="button" id="minus" class="action-btn">− 1 bagian</button>
+        <button type="button" id="plus" class="action-btn action-main">+ 1 bagian</button>
+        <button type="button" id="spread" class="action-btn">↗ Pisahkan</button>
+      </div>
+      <div class="explore-fact" id="exploreFact">Pembilang = potongan terpilih. Penyebut = jumlah bagian sama besar.</div>
+    </section>
+
+    <section class="challenge-section hidden" id="challengeSection">
+      <div class="mission-top"><span class="mission-label" id="missionCounter">MISI 1/5</span><span class="stars" id="starProgress">☆☆☆☆☆</span></div>
+      <div class="story-card"><strong id="challengeTitle">Pizza Dina</strong><p id="challengeStory"></p></div>
+      <div class="mission-instruction" id="missionInstruction"></div>
+      <div class="mission-controls" id="missionControls">
+        <button type="button" id="minusChallenge">− Potong</button>
+        <button type="button" id="plusChallenge">+ Potong</button>
+        <button type="button" id="clearSelection">↺ Reset bagian</button>
+      </div>
+      <div class="answer-area hidden" id="answerArea"><span class="answer-label">Sekarang pilih jawaban dari soal cerita:</span><div class="answer-grid" id="answerGrid"></div></div>
+      <div class="mission-feedback hidden" id="missionFeedback" role="status" aria-live="polite"></div>
+      <div class="mission-action-row"><button type="button" id="hintButton" class="hint-button">💡 Petunjuk</button><button type="button" id="checkAnswer" class="action-btn action-main">Cek langkah ✓</button><button type="button" id="nextChallenge" class="action-btn action-main hidden">Misi berikutnya →</button></div>
+    </section>
+
+    <div class="panel-footer"><span id="footerHint">👆 Sentuh irisan pizza 3D untuk memilih bagian</span><button type="button" id="resetAll">↺ Ulangi</button></div>
   </div>
   <button class="debug-toggle" onclick="location.href='ar.html'">📷 Buka AR</button>
   <div id="cameraDebug" class="camera-debug hidden"></div><button id="debugToggle" class="hidden"></button>
