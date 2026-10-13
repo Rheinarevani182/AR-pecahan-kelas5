@@ -1,129 +1,41 @@
-<!doctype html>
-<html lang="id">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <meta name="theme-color" content="#fff5e6">
-  <title>Pizza Lab AR | Petualangan Pecahan</title>
-  <link rel="stylesheet" href="assets/ar/pizza-lab.css">
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
-  <script defer src="assets/ar/pizza-lab.js"></script>
-</head>
+<!doctype html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#ecfbfa"><title>Fraction World AR • Jelajah Pecahan Kelas 5</title>
+<link rel="stylesheet" href="assets/ar/fraction-world.css">
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+<script defer src="assets/ar/fraction-world.js"></script></head>
 <body data-mode="ar">
-  <!-- Video ini memakai stream dari kamera MindAR, BUKAN membuka kamera kedua. -->
-  <video id="cameraBackdrop" class="camera-backdrop" autoplay muted playsinline webkit-playsinline aria-hidden="true"></video>
-  <div class="fallback-backdrop" aria-hidden="true"><span>🍕</span></div>
-
-  <a-scene id="arScene"
-    embedded
-    mindar-image="imageTargetSrc: assets/targets/targets.mind; maxTrack: 1; autoStart: true; uiLoading: no; uiScanning: no; uiError: no"
-    color-space="sRGB"
-    renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true"
-    vr-mode-ui="enabled: false"
-    device-orientation-permission-ui="enabled: false">
-    <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
-    <a-entity light="type: ambient; color: #fff4dc; intensity: 1.25"></a-entity>
-    <a-entity light="type: directional; color: #ffffff; intensity: 1.8" position="-0.8 1.4 2.2"></a-entity>
-    <a-entity light="type: directional; color: #ffa957; intensity: .7" position="1.1 -1 .8"></a-entity>
-
-    <a-entity id="cardPizza" mindar-image-target="targetIndex: 0">
-      <a-entity id="pizzaModel" pizza-lab position="0 0 0.04"></a-entity>
-    </a-entity>
-    <a-entity id="cardSenilai" mindar-image-target="targetIndex: 1">
-      <a-plane color="#5d3dba" width=".9" height=".5" position="0 0 .045" material="opacity:.92; side: double"></a-plane>
-      <a-text value="PECAHAN SENILAI" align="center" width="2" color="white" position="0 .13 .07"></a-text>
-      <a-text value="1/2 = 2/4" align="center" width="2.6" color="#fff0a6" position="0 -.07 .075"></a-text>
-    </a-entity>
-    <a-entity id="cardBanding" mindar-image-target="targetIndex: 2">
-      <a-plane color="#008c81" width=".9" height=".5" position="0 0 .045" material="opacity:.92; side: double"></a-plane>
-      <a-text value="BANDINGKAN" align="center" width="2" color="white" position="0 .13 .07"></a-text>
-      <a-text value="1/2 > 1/4" align="center" width="2.6" color="#fff0a6" position="0 -.07 .075"></a-text>
-    </a-entity>
-    <a-entity id="cardTambah" mindar-image-target="targetIndex: 3">
-      <a-plane color="#d46c59" width=".9" height=".5" position="0 0 .045" material="opacity:.92; side: double"></a-plane>
-      <a-text value="PENJUMLAHAN" align="center" width="2" color="white" position="0 .13 .07"></a-text>
-      <a-text value="1/4 + 1/4 = 2/4" align="center" width="2.35" color="#fff0a6" position="0 -.07 .075"></a-text>
-    </a-entity>
-  </a-scene>
-
-  <header class="app-header">
-    <a href="index.html" class="back-link" aria-label="Kembali ke beranda">←</a>
-    <div class="brand"><div class="brand-emoji">🍕</div><div><b>Pizza Lab <span>AR</span></b><small>Petualangan Pecahan · Kelas 5</small></div></div>
-    <button id="soundButton" class="icon-button" title="Nyalakan efek suara" aria-label="Nyalakan efek suara">🔇</button>
-  </header>
-
-  <div class="scan-badge" id="scanBadge" role="status"><span class="scan-dot"></span><span id="scanStatus">Menyalakan kamera…</span></div>
-
-  <div class="scan-guide" id="scanGuide">
-    <div class="scan-corners"><div class="scan-emoji">🍕</div></div>
-    <b>Arahkan kamera ke kartu pizza</b>
-    <p>Pastikan seluruh gambar kartu terlihat, lalu tunggu pizza 3D muncul.</p>
-  </div>
-
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <div class="celebration" id="celebration" aria-hidden="true"></div>
-
-  <div class="teacher-bubble" id="teacherBubble" role="status" aria-live="polite">
-    <div class="teacher-avatar" aria-hidden="true">👩‍🏫</div>
-    <div class="teacher-copy"><strong id="teacherTitle">Halo, penjelajah pecahan!</strong><p id="teacherMessage">Yuk belajar pecahan pakai pizza 3D!</p></div>
-    <button class="bubble-audio" id="speakButton" title="Bacakan penjelasan" aria-label="Bacakan penjelasan">🔊</button>
-  </div>
-
-  <div class="game-panel" id="gamePanel">
-    <div class="panel-head">
-      <div class="panel-brand"><span>📚 LABORATORIUM PECAHAN</span><h1 id="modeTitle">Belajar Pecahan Yuk!</h1></div>
-      <div class="fraction-card"><span>PIZZA DIPILIH</span><b id="fractionText">1/4</b></div>
-    </div>
-    <div class="switch-mode" aria-label="Mode belajar">
-      <button type="button" data-mode-select="learn" class="selected">📖 Belajar</button>
-      <button type="button" data-mode-select="explore">🍕 Coba Sendiri</button>
-      <button type="button" data-mode-select="challenge">🏆 Misi Cerita</button>
-    </div>
-
-    <section class="lesson-section" id="lessonSection">
-      <div class="lesson-meta"><span id="lessonCounter">Pelajaran 1 dari 5</span><span class="lesson-pill">Kelas 5 SD</span></div>
-      <h2 id="lessonTitle">Apa itu pecahan?</h2>
-      <p class="lesson-body" id="lessonBody">Pecahan menunjukkan sebagian dari suatu benda utuh.</p>
-      <div class="math-strip" id="lessonMath">1 dari 4 = 1/4</div>
-      <div class="lesson-actions">
-        <button type="button" id="prevLesson">← Sebelumnya</button>
-        <button type="button" id="nextLesson" class="primary">Lanjut materi →</button>
-      </div>
-    </section>
-
-    <section class="explore-section hidden" id="exploreSection">
-      <p class="short-help" id="explain">Pilih jumlah potongan lalu sentuh pizzanya.</p>
-      <div class="cuts" role="group" aria-label="Jumlah potongan">
-        <button type="button" data-cut="2">½ <small>Bagi 2</small></button>
-        <button type="button" data-cut="4" class="selected">¼ <small>Bagi 4</small></button>
-        <button type="button" data-cut="8">⅛ <small>Bagi 8</small></button>
-      </div>
-      <div class="action-row">
-        <button type="button" id="minus" class="action-btn">− 1 bagian</button>
-        <button type="button" id="plus" class="action-btn action-main">+ 1 bagian</button>
-        <button type="button" id="spread" class="action-btn">↗ Pisahkan</button>
-      </div>
-      <div class="explore-fact" id="exploreFact">Pembilang = potongan terpilih. Penyebut = jumlah bagian sama besar.</div>
-    </section>
-
-    <section class="challenge-section hidden" id="challengeSection">
-      <div class="mission-top"><span class="mission-label" id="missionCounter">MISI 1/5</span><span class="stars" id="starProgress">☆☆☆☆☆</span></div>
-      <div class="story-card"><strong id="challengeTitle">Pizza Dina</strong><p id="challengeStory"></p></div>
-      <div class="mission-instruction" id="missionInstruction"></div>
-      <div class="mission-controls" id="missionControls">
-        <button type="button" id="minusChallenge">− Potong</button>
-        <button type="button" id="plusChallenge">+ Potong</button>
-        <button type="button" id="clearSelection">↺ Reset bagian</button>
-      </div>
-      <div class="answer-area hidden" id="answerArea"><span class="answer-label">Sekarang pilih jawaban dari soal cerita:</span><div class="answer-grid" id="answerGrid"></div></div>
-      <div class="mission-feedback hidden" id="missionFeedback" role="status" aria-live="polite"></div>
-      <div class="mission-action-row"><button type="button" id="hintButton" class="hint-button">💡 Petunjuk</button><button type="button" id="checkAnswer" class="action-btn action-main">Cek langkah ✓</button><button type="button" id="nextChallenge" class="action-btn action-main hidden">Misi berikutnya →</button></div>
-    </section>
-
-    <div class="panel-footer"><span id="footerHint">👆 Sentuh irisan pizza 3D untuk memilih bagian</span><button type="button" id="resetAll">↺ Ulangi</button></div>
-  </div>
-  <button id="debugToggle" class="debug-toggle" aria-label="Tampilkan informasi kamera">ⓘ Kamera</button>
-  <div id="cameraDebug" class="camera-debug hidden" aria-live="polite"></div>
-</body>
-</html>
+<div class="camera-fallback" aria-hidden="true"></div>
+<a-scene id="arScene" embedded mindar-image="imageTargetSrc: assets/targets/targets.mind; maxTrack: 1; autoStart: true; uiLoading: no; uiScanning: no; uiError: no" renderer="alpha:true;antialias:true;colorManagement:true" vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false">
+<a-camera position="0 0 0" look-controls="enabled:false"></a-camera>
+<a-entity light="type:ambient;color:#fff8e8;intensity:1.4"></a-entity><a-entity light="type:directional;color:#ffffff;intensity:1.7" position="-1 1.5 2"></a-entity>
+<a-entity id="target0" mindar-image-target="targetIndex:0"><a-entity class="pizza-model" pizza-lab position="0 0 .13"></a-entity>
+<a-entity class="ar-marker" position="0 .61 .22"><a-plane width=".67" height=".18" color="#0e4750" material="opacity:.86;transparent:true;side:double"></a-plane><a-text value="FRACTION WORLD" align="center" width="1.6" color="#fff8e0" position="0 0 .012"></a-text></a-entity>
+<a-entity class="ar-label" position=".40 -.39 .28"><a-plane width=".41" height=".16" color="#f9fffb" material="opacity:.95;transparent:true;side:double"></a-plane><a-text class="ar-label-text" value="1/4" align="center" width="1.20" color="#00646d" position="0 0 .014"></a-text></a-entity></a-entity>
+<a-entity id="target1" mindar-image-target="targetIndex:1"><a-entity class="pizza-model" pizza-lab position="0 0 .13"></a-entity><a-entity class="ar-label" position=".40 -.39 .28"><a-plane width=".48" height=".16" color="#f9fffb" material="opacity:.95;transparent:true;side:double"></a-plane><a-text class="ar-label-text" value="2/4 = 1/2" align="center" width="1.18" color="#00646d" position="0 0 .014"></a-text></a-entity></a-entity>
+<a-entity id="target2" mindar-image-target="targetIndex:2"><a-entity class="pizza-model" pizza-lab position="0 0 .13"></a-entity><a-entity class="ar-label" position=".40 -.39 .28"><a-plane width=".48" height=".16" color="#f9fffb" material="opacity:.95;transparent:true;side:double"></a-plane><a-text class="ar-label-text" value="3/4 > 1/2" align="center" width="1.16" color="#00646d" position="0 0 .014"></a-text></a-entity></a-entity>
+<a-entity id="target3" mindar-image-target="targetIndex:3"><a-entity class="pizza-model" pizza-lab position="0 0 .13"></a-entity><a-entity class="ar-label" position=".40 -.39 .28"><a-plane width=".51" height=".16" color="#f9fffb" material="opacity:.95;transparent:true;side:double"></a-plane><a-text class="ar-label-text" value="1/4 + 2/4" align="center" width="1.1" color="#00646d" position="0 0 .014"></a-text></a-entity></a-entity>
+</a-scene>
+<header class="top-bar"><a href="index.html" class="round-link" aria-label="Kembali">←</a><div class="top-title"><b>FRACTION <span>WORLD</span></b><small>LABORATORIUM PECAHAN · KELAS 5</small></div><button class="round-link" id="speak" title="Dengarkan penjelasan" aria-label="Bacakan penjelasan">🔊</button></header>
+<div class="status-pill" id="status" role="status">◌ Menyiapkan kamera AR...</div>
+<nav class="orbit-menu" aria-label="Menu AR interaktif">
+<button class="orbit-item active" data-tab="intro"><span class="orb">🍕</span><small>MULAI</small></button>
+<button class="orbit-item" data-tab="cut"><span class="orb">✂️</span><small>POTONG</small></button>
+<button class="orbit-item" data-tab="learn"><span class="orb">📖</span><small>MATERI</small></button>
+<button class="orbit-item" data-tab="example"><span class="orb">🧠</span><small>CONTOH</small></button>
+<button class="orbit-item" data-tab="challenge"><span class="orb">🏆</span><small>TANTANGAN</small></button>
+</nav>
+<div class="scan-hint" id="scanHint"><div class="reticle"><span>🍕</span></div><strong>Arahkan kamera ke kartu pecahan</strong><small>Pizza 3D dan materi akan muncul di atas kartu</small></div>
+<div class="hud-counter"><b id="hudFraction">1/4</b><small id="hudDesc">1 dari 4 bagian</small></div>
+<section class="float-panel" id="infoPanel" aria-live="polite">
+<div class="panel-top"><span id="topicLabel">PENGENALAN</span><button id="collapse" title="Sembunyikan / buka penjelasan" aria-label="Sembunyikan / buka panel">−</button></div>
+<h2 id="panelTitle">Kenalan dengan Pecahan!</h2>
+<p id="panelText">Satu pizza dapat dibagi menjadi beberapa bagian sama besar.</p>
+<div id="detail" class="detail"><b>1/4</b> artinya satu dari empat bagian yang sama besar.</div>
+<div class="panel-actions"><button id="animate" class="main-action">▶ Lihat animasi</button><button id="readMore">🔈 Bacakan</button></div>
+</section>
+<section class="dock" id="cutDock"><div class="dock-caption"><strong>Atur potongan pizza</strong><span>Sentuh pizza atau gunakan tombol</span></div><div class="dock-row"><button data-cut="2">½</button><button data-cut="4" class="chosen">¼</button><button data-cut="8">⅛</button><span class="v-divider"></span><button id="minus">−</button><button id="plus">+</button><button id="separate" class="wide">Pisahkan ↗</button></div></section>
+<section id="missionPanel" class="mission hidden" aria-live="polite"><div class="mission-head"><span>🎯 MISI <b id="missionNumber">1/5</b></span><button id="missionClose" aria-label="Tutup tantangan">×</button></div><h2 id="missionTitle">Soal Cerita</h2><p id="missionStory"></p><div class="mission-instruction" id="missionInstruction"></div><div class="mission-tools"><button id="missionMinus">− bagian</button><span id="missionCount">0/4</span><button id="missionPlus">+ bagian</button></div><div class="mission-choices hidden" id="missionChoices"></div><div id="missionFeedback" class="mission-feedback hidden"></div><div class="mission-bottom"><button id="missionHint">💡 Petunjuk</button><button id="missionCheck" class="main-action">Periksa langkah ✓</button><button id="missionNext" class="main-action hidden">Soal berikutnya →</button></div></section>
+<div class="toast" id="toast" role="status" aria-live="polite"></div><button id="cameraInfo" class="camera-info" aria-label="Periksa kamera">ⓘ</button><div id="cameraDebug" class="camera-debug hidden"></div>
+</body></html>
