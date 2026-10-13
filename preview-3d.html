@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <meta name="theme-color" content="#fff5e6">
+  <title>Preview Pizza 3D | Petualangan Pecahan</title>
+  <link rel="stylesheet" href="assets/ar/pizza-lab.css">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script defer src="assets/ar/pizza-lab.js"></script>
+</head>
+<body data-mode="demo">
+  <div class="demo-background" aria-hidden="true"><div class="demo-sun">✦</div><span>3D PREVIEW</span></div>
+  <a-scene id="arScene" embedded renderer="alpha: true; antialias: true; colorManagement: true; physicallyCorrectLights: true" vr-mode-ui="enabled:false" device-orientation-permission-ui="enabled:false">
+    <a-camera position="0 0 1.65" look-controls="enabled:false"></a-camera>
+    <a-entity light="type: ambient; color: #fff4dc; intensity: 1.5"></a-entity>
+    <a-entity light="type: directional; color: #ffffff; intensity: 2" position="-0.8 1.4 2.2"></a-entity>
+    <a-entity light="type: directional; color: #ffa957; intensity: .6" position="1.1 -1 .8"></a-entity>
+    <a-entity id="pizzaModel" pizza-lab position="0 .17 0" rotation="-12 0 12"></a-entity>
+  </a-scene>
+  <header class="app-header">
+    <a href="index.html" class="back-link" aria-label="Kembali ke beranda">←</a>
+    <div class="brand"><div class="brand-emoji">🍕</div><div><b>Pizza Lab <span>AR</span></b><small>Mode pratinjau tanpa kamera</small></div></div>
+    <button id="soundButton" class="icon-button" aria-label="Nyalakan efek suara">🔇</button>
+  </header>
+  <div class="scan-badge is-found" id="scanBadge" role="status"><span class="scan-dot"></span><span id="scanStatus">Mode preview · ketuk pizzanya!</span></div>
+  <div class="scan-guide hidden" id="scanGuide"></div><div class="toast" id="toast" role="status" aria-live="polite"></div><div class="celebration" id="celebration" aria-hidden="true"></div>
+  <div class="game-panel">
+    <div class="panel-head"><div class="panel-brand"><span>✨ BELAJAR SAMBIL MAIN</span><h1 id="modeTitle">Bikin Pecahanmu!</h1></div><div class="fraction-card"><span>PECAHAN</span><b id="fractionText">0/4</b></div></div>
+    <div class="switch-mode"><button data-mode-select="explore" class="selected">🧩 Eksplorasi</button><button data-mode-select="challenge">🏆 Tantangan</button></div>
+    <div class="explore-section" id="exploreSection"><p class="short-help" id="explain">Pilih jumlah potongan, lalu ketuk pizza untuk mengambil bagiannya.</p><div class="cuts" role="group" aria-label="Jumlah potongan"><button data-cut="2">½ <small>Bagi 2</small></button><button data-cut="4" class="selected">¼ <small>Bagi 4</small></button><button data-cut="8">⅛ <small>Bagi 8</small></button></div><div class="action-row"><button id="minus" class="action-btn">− 1 bagian</button><button id="plus" class="action-btn action-main">+ 1 bagian</button><button id="spread" class="action-btn">↗ Pisahkan</button></div></div>
+    <div class="challenge-section hidden" id="challengeSection"><div class="challenge-top"><span class="challenge-icon">🎯</span><div><small>TANTANGAN</small><b id="challengePrompt">Ambil 1 dari 2 potongan!</b></div><span class="stars" id="starProgress">☆ ☆ ☆</span></div><p class="short-help">Ketuk potongan pizza yang kamu pilih, lalu periksa jawabanmu.</p><div class="action-row"><button id="clearSelection" class="action-btn">↺ Reset</button><button id="addChallenge" class="action-btn">+ 1 pilih</button><button id="checkAnswer" class="action-btn action-main">Cek ✓</button><button id="nextChallenge" class="action-btn hidden">Lanjut →</button></div></div>
+    <div class="panel-footer"><span>👆 Sentuh potongan pizza untuk memilih</span><button id="resetAll">Reset</button></div>
+  </div>
+  <button class="debug-toggle" onclick="location.href='ar.html'">📷 Buka AR</button>
+  <div id="cameraDebug" class="camera-debug hidden"></div><button id="debugToggle" class="hidden"></button>
+</body>
+</html>
